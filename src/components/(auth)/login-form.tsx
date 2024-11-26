@@ -47,7 +47,7 @@ export function LoginForm() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchemaLogin>) {
     await signIn("credentials", values, {
-      redirectTo: "/dashboard",
+      redirectTo: "/admin",
     });
   }
 
@@ -129,7 +129,7 @@ export function LoginForm() {
               type="button"
               variant="outline"
               onClick={async () =>
-                signIn("google", { redirectTo: "/dashboard" })
+                signIn("google", { redirectTo: "/admin" })
               }
             >
               <FcGoogle />

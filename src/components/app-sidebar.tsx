@@ -1,15 +1,6 @@
-"use client";
-import {useEffect, useState} from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  GalleryVerticalEnd,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+"use client"
 
+import { Team } from "@/app/(modules)/admin/layout";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
@@ -20,163 +11,52 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import {useRouter } from "next/navigation";
-import { getOrganizationDetails } from "@/action/auth-actions";
-import { useSession } from "next-auth/react";
-import { Organization } from "@prisma/client";
+import { Session } from "next-auth";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  session: Session;
+  data: unknown;
+  teams:Team
+}
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [organization, setOrganization] = useState<Organization>()
-  const session = useSession();
-  const router = useRouter();
+export function AppSidebar({ teams, data, session, ...props }: AppSidebarProps) {
+  // const [organization, setOrganization] = useState<Organization>()
+  // const session = useSession();
+  // const router = useRouter();
 
-  if (!session) {
-    return router.push("/auth/login");
-  }
+  // if (!session) {
+  //   return router.push("/auth/login");
+  // }
 
-  useEffect(() => {
-    const getData = async () => {
-      const isOrganizationExist = await getOrganizationDetails(
-        session.data?.user?.email ?? ""
-      );
-      if (!isOrganizationExist) {
-        router.push("/school-registration");
-      } else {
-        setOrganization(isOrganizationExist);
-      }
-    };
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const isOrganizationExist = await getOrganizationDetails(
+  //       session.data?.user?.email ?? ""
+  //     );
+  //     if (!isOrganizationExist) {
+  //       router.push("/school-registration");
+  //     } else {
+  //       setOrganization(isOrganizationExist);
+  //     }
+  //   };
 
-    if (session) {
-      getData();
-    }
-  }, [router, session.data?.user?.email, session]);
-
-
+  //   if (session) {
+  //     getData();
+  //   }
+  // }, [router, session.data?.user?.email, session]);
+ console.log(teams, "🚀");
+  
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher teams={teams} />
       </SidebarHeader>
+      
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser
-          data={session.data?.user ?? { name: "", email: "", image: "" }}
-        />
+        <NavUser data={session.user ?? { name: "", email: "", image: "" }} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
