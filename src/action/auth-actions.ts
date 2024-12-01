@@ -48,7 +48,7 @@ export async function signUpAction(values: z.infer<typeof formSchemaSignup>) {
 
 
 export async function createOrganization(values: z.infer<typeof formSchemaSchool>) {
-  const { name, subdomain } = values;
+  const { name, subdomain, logo } = values;
 
   const session = await auth();
   console.log(session?.user, '🚀');
@@ -69,6 +69,7 @@ export async function createOrganization(values: z.infer<typeof formSchemaSchool
       data: {
         name,
         subdomain,
+        logo,
         members: {
           create: {
             user:{

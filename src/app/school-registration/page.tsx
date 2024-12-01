@@ -15,7 +15,7 @@ export default async function Page() {
   );
   console.log(isOrganizationExist);
   if (isOrganizationExist) {
-    return redirect("/dashboard");
+    return redirect("/admin");
   }
 
   return (

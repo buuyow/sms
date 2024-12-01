@@ -52,6 +52,7 @@ export function SchoolRegistrationForm() {
     defaultValues: {
       name: "",
       subdomain:"",
+      logo:""
     },
   });
   const isLoading = form.formState.isSubmitting;
@@ -61,7 +62,7 @@ export function SchoolRegistrationForm() {
     const response =await createOrganization(values);
     if (response?.success) {
       toast.success("School has been created");
-      router.push("/dashboard");
+      router.push("/admin");
     } else {
       toast.error("School has not been created");
     }

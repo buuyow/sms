@@ -143,7 +143,7 @@ export function SignupForm() {
               type="button"
               variant="outline"
               onClick={async () =>
-                signIn("google", { redirectTo: "/dashboard" })
+                signIn("google", { redirectTo: "/admin" })
               }
             >
               <FcGoogle />
